@@ -78,7 +78,6 @@ public class DevisController {
                 dateDevis = LocalDateTime.parse(dateDevisStr);
             }
 
-            // Validation type forage
             Type type = typeService.findById(idType);
             if (type != null && "Forage".equalsIgnoreCase(type.getLibelle())) {
                 Demande demande = demandeService.findById(refDemande);
@@ -111,9 +110,6 @@ public class DevisController {
             model.addAttribute("content", "/WEB-INF/views/devis/index.jsp");
             return "layout";
         }
-        // model.addAttribute("currentPage", "formDevis");
-        // model.addAttribute("content", "/WEB-INF/views/devis/index.jsp");
-        // return "layout";
     
     }
         

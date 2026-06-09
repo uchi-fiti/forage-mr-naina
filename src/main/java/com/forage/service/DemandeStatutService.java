@@ -29,8 +29,7 @@ public class DemandeStatutService {
     @Autowired
     private Utils utils;
     public DemandeStatut save(Demande demande, LocalDateTime date) {
-        // statut demande créée
-        Integer idStatut = utils.getIdStatutFromSigle(com.forage.model.StatutSigle.DEMANDE_CREEE);
+        Iteger idStatut = utils.getIdStatutFromSigle(com.forage.model.StatutSigle.DEMANDE_CREEE);
         Statut statut = statutRepository.findById(idStatut).orElseThrow();
         DemandeStatut demandeStatut = new DemandeStatut();
         demandeStatut.setDemande(demande);
@@ -66,18 +65,12 @@ public class DemandeStatutService {
         if(previous == null) {
             return 0;
         }
-        // System.out.println("Duree entre " + previous.getDateChangementStatut() + " et " + ds.getDateChangementStatut() + " est egale a :" + computeDurationWithOnlyWeekDaysAndWorkingHours(previous.getDateChangementStatut(), ds.getDateChangementStatut()));
-        // System.out.println("Duree entre " + previous.getDateChangementStatut() + " et " + ds.getDateChangementStatut() + " est egale a :" + utils.computeDurationWithOnlyWeekDaysAndWorkingHours(previous.getDateChangementStatut(), ds.getDateChangementStatut()));
 
-        // System.out.println("Duree entre avec duration" + previous.getDateChangementStatut() + " et " + ds.getDateChangementStatut() + " est egale a :" + Duration.between(previous.getDateChangementStatut(), ds.getDateChangementStatut()).toMinutes());
-
-        // mila ovaina atao ny weekdays de 8h a 16h ny calculena
         return computeDurationWithOnlyWeekDaysAndWorkingHours(previous.getDateChangementStatut(), ds.getDateChangementStatut());
     }
     public List <DemandeStatut[]> getIntervallesDemandeStatutByDemande(Demande demande) {
         List <DemandeStatut[]> retour = new ArrayList<>();
         List <DemandeStatut> demandeStatuts = demandeStatutRepository.findByDemande(demande);
-        System.out.println("Demande statuts size : " + demandeStatuts.size());
         for (DemandeStatut demandeStatut : demandeStatuts) {
             for(DemandeStatut ds : demandeStatuts) {
                 if(demandeStatut.getStatut().getId() < ds.getStatut().getId()) {
@@ -88,7 +81,6 @@ public class DemandeStatutService {
                 }
             }
         }
-        System.out.println("Intervalle size: " + retour.size());
         return retour;
     }
     public long calculerDureeTravaille(DemandeStatut ds1, DemandeStatut ds2) {
@@ -117,7 +109,7 @@ public class DemandeStatutService {
             save(d);
         }
     }
-public long computeDurationWithOnlyWeekDaysAndWorkingHours(
+    public long computeDurationWithOnlyWeekDaysAndWorkingHours(
         LocalDateTime previous,
         LocalDateTime current) {
 
@@ -136,10 +128,6 @@ public long computeDurationWithOnlyWeekDaysAndWorkingHours(
     LocalDateTime start = previous;
     LocalDateTime end   = current;
 
-    // -------------------------
-    // Clamp START
-    // -------------------------
-
     if (start.toLocalTime().isBefore(debutWorkingHour)) {
         start = start.toLocalDate().atTime(debutWorkingHour);
     } else if (start.toLocalTime().isAfter(finWorkingHour)) {
@@ -149,15 +137,10 @@ public long computeDurationWithOnlyWeekDaysAndWorkingHours(
         start = nextWorking.atTime(debutWorkingHour);
     }
 
-    // Si START tombe sur un week-end
-    if (start.getDayOfWeek().getValue() > 5) {
+    i (start.getDayOfWeek().getValue() > 5) {
         start = nextWorkingDay(start.toLocalDate())
                 .atTime(debutWorkingHour);
     }
-
-    // -------------------------
-    // Clamp END
-    // -------------------------
 
     if (end.toLocalTime().isAfter(finWorkingHour)) {
         end = end.toLocalDate().atTime(finWorkingHour);
@@ -168,8 +151,7 @@ public long computeDurationWithOnlyWeekDaysAndWorkingHours(
         end = lastWorking.atTime(finWorkingHour);
     }
 
-    // Si END tombe sur un week-end
-    if (end.getDayOfWeek().getValue() > 5) {
+    i (end.getDayOfWeek().getValue() > 5) {
         end = lastWorkingDay(end.toLocalDate())
                 .atTime(finWorkingHour);
     }
@@ -215,12 +197,9 @@ public long computeDurationWithOnlyWeekDaysAndWorkingHours(
     return dureeTravaillee;
 }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
     /** Returns the given date if it is a weekday, otherwise the next Monday. */
     public LocalDate nextWorkingDay(LocalDate date) {
-        while (date.getDayOfWeek().getValue() > 5) { // Sat=6, Sun=7
-            date = date.plusDays(1);
+            date = date.plusDays(1)
         }
         return date;
     }

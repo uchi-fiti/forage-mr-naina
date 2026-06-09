@@ -3,18 +3,15 @@ const filterTextInput = document.getElementById("filterText");
 const alertsBody = document.getElementById("alertsBody");
 const btnRefresh = document.getElementById("btnRefresh");
 
-const API_BASE_URL = "http://localhost:8080/forage/api";
 
 let allAlertsData = [];
 
-// Charger les options du select
 async function loadDemandes() {
     try {
         const response = await fetch(`${API_BASE_URL}/demandes`);
         if (!response.ok) throw new Error("Impossible de charger les demandes");
         
         const demandes = await response.json();
-        // Garder l'option par défaut "Toutes"
         refDemandeSelect.innerHTML = '<option value="">Toutes les demandes avec alertes</option>';
         
         demandes.forEach(demande => {
@@ -28,7 +25,6 @@ async function loadDemandes() {
     }
 }
 
-// Charger toutes les alertes (quand aucune demande spécifique n'est choisie)
 async function fetchAllAlerts() {
     try {
         const response = await fetch(`${API_BASE_URL}/all-alertes`);
@@ -40,13 +36,11 @@ async function fetchAllAlerts() {
     }
 }
 
-// Charger les alertes pour une demande spécifique
 async function fetchAlertsForOne(refDemande) {
     try {
         const usp = new URLSearchParams();
         usp.append("refDemande", refDemande);
 
-        // Récupérer d'abord les détails de la demande pour avoir le client/commune/date
         const demandeRes = await fetch(`${API_BASE_URL}/demandes`);
         const demandes = await demandeRes.json();
         const demandeInfo = demandes.find(d => d.reference === refDemande);
@@ -60,7 +54,6 @@ async function fetchAlertsForOne(refDemande) {
         if (!response.ok) throw new Error("Erreur lors de la récupération.");
         const alertes = await response.json();
 
-        // Transformer en format compatible avec le tableau
         const singleData = [{
             reference: refDemande,
             client: demandeInfo ? demandeInfo.client.nom : "Inconnu",
@@ -88,7 +81,6 @@ function getBadgeClass(type) {
 function renderTable(data) {
     const filterText = filterTextInput.value.toLowerCase();
     
-    // Filtrage textuel côté client
     const filtered = data.filter(item => {
         return (
             item.reference.toLowerCase().includes(filterText) ||
@@ -134,7 +126,6 @@ function showError(msg) {
     alertsBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-danger fs-5">${msg}</td></tr>`;
 }
 
-// Event Listeners
 refDemandeSelect.addEventListener("change", (e) => {
     alertsBody.innerHTML = '<tr><td colspan="5" class="text-center py-5"><div class="spinner-border text-primary"></div></td></tr>';
     if (e.target.value === "") {
@@ -156,6 +147,5 @@ btnRefresh.addEventListener("click", () => {
     }
 });
 
-// Init
 loadDemandes();
 fetchAllAlerts();

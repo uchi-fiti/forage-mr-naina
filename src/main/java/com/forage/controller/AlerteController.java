@@ -59,16 +59,12 @@ public class AlerteController {
         @RequestParam("refDemande") String refDemande) {
         Demande demande = demandeService.findById(refDemande);
 
-        System.out.println("This function has been called. Ref demande is : " + refDemande);
-
         return alerteService.getAllAlertes(demande);
     }
     @GetMapping("/all-by-refdemande/{refDemande}")
     public List<Alerte> findAlertesPath(
         @PathVariable("refDemande") String refDemande) {
         Demande demande = demandeService.findById(refDemande);
-        System.out.println("Demande found : " + demande.getReference());
-
 
         return alerteService.getAllAlertes(demande);
     }

@@ -59,8 +59,6 @@ public class DemandeController {
                                 @RequestParam("clientId") Integer clientId,
                                 @RequestParam("communeId") Integer communeId,
                                 @RequestParam(value = "dateDemande", required = false) String dateDemandeStr) {
-        System.out.println("Client id: " + clientId + " Commune Id: " + communeId);
-        
         LocalDateTime dateDemande = null;
         if (dateDemandeStr != null && !dateDemandeStr.isBlank()) {
             dateDemande = LocalDateTime.parse(dateDemandeStr);
