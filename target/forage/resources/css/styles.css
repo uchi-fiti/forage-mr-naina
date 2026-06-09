@@ -1,0 +1,13 @@
+.json-container {
+    border-radius: 30px;
+    border: 1px rgb(68, 68, 68);
+    width: 500px;
+    background-color: #f5f6f7;
+}
+.hidden {
+    display: none;
+}
+.nav-pills .nav-link.active {
+    color: white;
+    background-color: #007bff;
+}

@@ -1,0 +1,11 @@
+package com.forage.model;
+
+public enum StatutSigle {
+    DEMANDE_CREEE,
+    DEVIS_ETUDE_TERMINE,
+    DEVIS_ETUDE_ACCEPTE,
+    DEVIS_FORAGE_TERMINE,
+    DEVIS_FORAGE_ACCEPTE,
+    FORAGE_EN_COURS,
+    FORAGE_TERMINE
+}
